@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjf053k633bic"]
+
+[ext_resource type="PackedScene" uid="uid://ut5shby53w2d" path="res://character/character.tscn" id="1_gehj7"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Character1" parent="." instance=ExtResource("1_gehj7")]
+position = Vector2(41, 70)
+
+[node name="Character2" parent="." instance=ExtResource("1_gehj7")]
+position = Vector2(94, 70)
+
+[node name="Character3" parent="." instance=ExtResource("1_gehj7")]
+position = Vector2(154, 70)
+
+[node name="Character4" parent="." instance=ExtResource("1_gehj7")]
+position = Vector2(209, 70)

@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://ut5shby53w2d"]
+
+[ext_resource type="Texture2D" uid="uid://c6juhootdxnvq" path="res://character/character.png" id="1_1xl23"]
+[ext_resource type="Script" path="res://character/character.gd" id="2_ibpwv"]
+[ext_resource type="Script" path="res://components/party/party_membership.gd" id="3_apv2e"]
+
+[node name="Character" type="Sprite2D" node_paths=PackedStringArray("party_membership")]
+texture = ExtResource("1_1xl23")
+script = ExtResource("2_ibpwv")
+party_membership = NodePath("PartyMembership")
+
+[node name="PartyMembership" type="Node" parent="."]
+script = ExtResource("3_apv2e")
