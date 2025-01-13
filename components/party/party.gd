@@ -1,4 +1,4 @@
-
+@icon("res://icons/party.svg")
 class_name Party
 extends Resource
 

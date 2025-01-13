@@ -1,4 +1,4 @@
-
+@icon("res://icons/party_membership.svg")
 class_name PartyMembership
 extends Node
 
@@ -9,6 +9,10 @@ signal left_party(id: StringName, old_position: int)
 signal swapped_positions_in_party(
 	id: StringName, old_position: int, new_position: int
 )
+
+signal started_leading()
+
+signal stopped_leading()
 
 @export var party_id: StringName = &"":
 	set = set_party_id,
@@ -94,7 +98,7 @@ func swap_positions_in_party(new_position: int) -> bool:
 func lead_party() -> bool:
 	return swap_positions_in_party(0)
 
-func follow_party(id: StringName) -> bool:
+func follow_party() -> bool:
 	return swap_positions_in_party(-1)
 
 func leave_party() -> bool:

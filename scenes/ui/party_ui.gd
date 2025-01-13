@@ -21,6 +21,7 @@ func set_party(new_party: Party) -> void:
 	Util.check_and_connect_signals(new_party, party_connections)
 	
 	reset_member_slots(new_party.max_size)
+	update_slots()
 
 func get_party() -> Party:
 	return party
@@ -60,17 +61,27 @@ func remove_member_from_slot(index: int) -> void:
 	slot.text = ""
 	slot.self_modulate = Color.WHITE
 
+func update_slots() -> void:
+	for i: int in party.max_size:
+		var member: PartyMembership = party.get_member_from_position(i)
+		
+		if member == null:
+			remove_member_from_slot(i)
+			continue
+		
+		set_member_to_slot(member, i)
+
 func _on_member_joined_party(
 	member: PartyMembership, new_position: int
 ) -> void:
-	set_member_to_slot(member, new_position)
+	update_slots()
 
 func _on_member_left_party(
 	_member: PartyMembership, old_position: int
 ) -> void:
-	remove_member_from_slot(old_position)
+	update_slots()
 
 func _on_member_swapped_positions_in_party(
 	member: PartyMembership, old_position: int, new_position: int
 ) -> void:
-	set_member_to_slot(member, new_position)
+	update_slots()

@@ -1,4 +1,4 @@
-
+@icon("res://icons/party_manager.svg")
 class_name PartyManager
 extends Node
 
