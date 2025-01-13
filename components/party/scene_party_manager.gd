@@ -2,13 +2,13 @@
 class_name ScenePartyManager
 extends PartyManager
 
+@export var parties: Dictionary = {}:
+	set = set_parties,
+	get = get_parties
+
 var party_counter: int = 0:
 	set = set_party_counter,
 	get = get_party_counter
-
-var parties: Dictionary = {}:
-	set = set_parties,
-	get = get_parties
 
 #region Setters & Getters
 
@@ -26,6 +26,26 @@ func get_parties() -> Dictionary:
 
 #endregion
 
+func initialize_party(id: StringName) -> void:
+	var party: Party = get_party(id)
+	
+	if party == null:
+		return
+	
+	party.id = id
+	
+	party.emptied.connect(remove_party.bind(id))
+	
+	for path: NodePath in party.initial_member_paths:
+		var node: Node = get_tree().current_scene.get_node(path)
+		
+		if node is PartyMembership:
+			party.add_follower(node)
+
+func initialize_parties() -> void:
+	for id: StringName in parties.keys():
+		initialize_party(id)
+
 func create_party(
 	members: Array[PartyMembership],
 	max_size: int = MAX_PARTY_SIZE
@@ -35,7 +55,10 @@ func create_party(
 	if max_size < 1:
 		return &""
 	
+	var party_id: StringName = str(party_counter)
+	
 	var party = Party.new()
+	party.id = party_id
 	
 	var added_member: bool = false
 	
@@ -44,8 +67,6 @@ func create_party(
 	
 	if not added_member:
 		return &""
-	
-	var party_id: StringName = str(party_counter)
 	
 	parties[party_id] = party
 	
@@ -81,6 +102,11 @@ func remove_party(id: StringName) -> bool:
 
 func _enter_tree() -> void:
 	GlobalPartyManager.scene_party_manager = self
+	
+	get_tree().current_scene.ready.connect(_on_scene_ready)
+
+func _on_scene_ready() -> void:
+	initialize_parties()
 
 func _exit_tree() -> void:
 	GlobalPartyManager.scene_party_manager = null

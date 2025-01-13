@@ -22,6 +22,10 @@ signal emptied()
 	set = set_initial_member_paths,
 	get = get_initial_member_paths
 
+var id: StringName:
+	set = set_id,
+	get = get_id
+
 var members: Array[PartyMembership] = []:
 	set = set_members,
 	get = get_members
@@ -52,6 +56,12 @@ func set_initial_member_paths(new_paths: Array[NodePath]) -> void:
 
 func get_initial_member_paths() -> Array[NodePath]:
 	return initial_member_paths
+
+func set_id(new_id: StringName) -> void:
+	id = new_id
+
+func get_id() -> StringName:
+	return id
 
 # WARNING: members can be fred nodes
 func set_members(new_members: Array[PartyMembership]) -> void:
@@ -132,7 +142,7 @@ func add_member(member: PartyMembership, position: int, suppress_signals := fals
 	
 	if not suppress_signals:
 		member_joined.emit(member, position)
-		# Emit joined_party signal in new member
+		member.joined_party.emit(id, position)
 		
 		if is_full():
 			filled.emit()
@@ -160,12 +170,22 @@ func remove_member_from_position(position: int, supress_signals := false) -> Par
 	
 	if not supress_signals:
 		member_left.emit(member, position)
-		# Emit left_party signal in old member
+		member.left_party.emit(id, position)
 		
 		if is_empty():
 			emptied.emit()
 	
 	return member
+
+func remove_member(member: PartyMembership) -> bool:
+	var position: int = get_position_from_member(member)
+	
+	if position == -1:
+		return false
+	
+	remove_member_from_position(position)
+	
+	return true
 
 func remove_leader() -> PartyMembership:
 	return remove_member_from_position(0)
@@ -182,9 +202,8 @@ func commit_swap(position1: int, position2: int) -> void:
 	
 	member_swapped_positions.emit(member2, position2, position1)
 	member_swapped_positions.emit(member1, position1, position2)
-	
-	# Emit swapped_positions signal in member1
-	# Emit swapped_positions signal in member2
+	member2.swapped_positions_in_party.emit(id, position2, position1)
+	member1.swapped_positions_in_party.emit(id, position1, position2)
 
 func swap_members_from_positions(position1: int, position2: int) -> bool:
 	var member1: PartyMembership = get_member_from_position(position1)

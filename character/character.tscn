@@ -9,5 +9,6 @@ texture = ExtResource("1_1xl23")
 script = ExtResource("2_ibpwv")
 party_membership = NodePath("PartyMembership")
 
-[node name="PartyMembership" type="Node" parent="."]
+[node name="PartyMembership" type="Node" parent="." node_paths=PackedStringArray("member")]
 script = ExtResource("3_apv2e")
+member = NodePath("..")

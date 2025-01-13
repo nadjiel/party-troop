@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2tku7mxmplsf"]
+
+[ext_resource type="Script" path="res://scenes/ui/party_ui.gd" id="1_vuoal"]
+
+[node name="PartyUI" type="HBoxContainer"]
+script = ExtResource("1_vuoal")

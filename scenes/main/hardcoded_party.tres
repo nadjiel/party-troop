@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Party" load_steps=2 format=3 uid="uid://cvw67urxp8yxv"]
+
+[ext_resource type="Script" path="res://components/party/party.gd" id="1_rol77"]
+
+[resource]
+script = ExtResource("1_rol77")
+max_size = 4
+initial_member_paths = Array[NodePath]([NodePath("World/Character1/PartyMembership"), NodePath("World/Character2/PartyMembership"), NodePath("World/Character3/PartyMembership"), NodePath("World/Character4/PartyMembership")])
