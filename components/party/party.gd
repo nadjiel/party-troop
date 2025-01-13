@@ -132,6 +132,7 @@ func add_member(member: PartyMembership, position: int, suppress_signals := fals
 	
 	if not suppress_signals:
 		member_joined.emit(member, position)
+		# Emit joined_party signal in new member
 		
 		if is_full():
 			filled.emit()
@@ -159,6 +160,7 @@ func remove_member_from_position(position: int, supress_signals := false) -> Par
 	
 	if not supress_signals:
 		member_left.emit(member, position)
+		# Emit left_party signal in old member
 		
 		if is_empty():
 			emptied.emit()
@@ -180,6 +182,9 @@ func commit_swap(position1: int, position2: int) -> void:
 	
 	member_swapped_positions.emit(member2, position2, position1)
 	member_swapped_positions.emit(member1, position1, position2)
+	
+	# Emit swapped_positions signal in member1
+	# Emit swapped_positions signal in member2
 
 func swap_members_from_positions(position1: int, position2: int) -> bool:
 	var member1: PartyMembership = get_member_from_position(position1)
